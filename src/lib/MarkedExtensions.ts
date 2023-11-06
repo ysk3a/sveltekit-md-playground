@@ -1,4 +1,8 @@
-import type { CartaExtension } from "carta-md";
+import type { CartaExtension, CartaExtensionComponent } from "carta-md";
+import Mention from "./Mention.svelte";
+import { options } from "marked";
+import type { ComponentProps } from "svelte";
+import { scale, fade } from "svelte/transition";
 
 export const tagTokenizerExtension = {
     name: '@',
@@ -28,5 +32,41 @@ export const mentioning = (): CartaExtension => {
         markedExtensions: [
             { extensions: [tagTokenizerExtension] }
         ]
+    };
+};
+
+export const mention = (): CartaExtension => {
+    const snippets: MentionSnippet[] = defaultSnippets.filter((snippet) =>
+        options?.disableDefaultSnippets === true
+            ? false
+            : !options?.disableDefaultSnippets?.includes(snippet.id)
+    );
+    snippets.push(...(options?.snippets ?? []));
+
+    const inTransition =
+        options?.inTransition ??
+        ((node: Element) =>
+            scale(node, {
+                duration: 150,
+                easing: BezierEasing(0.05, 0.68, 0.2, 1.15)
+            }));
+    const outTransition =
+        options?.inTransition ??
+        ((node: Element) =>
+            fade(node, {
+                duration: 100
+            }));
+    const mentionComponent: CartaExtensionComponent<ComponentProps> = {
+        component: Mention,
+        props: {
+            snippets,
+            inTransition,
+            outTransition
+        },
+        parent: 'input'
+    };
+
+    return {
+        components: [mentionComponent]
     };
 };

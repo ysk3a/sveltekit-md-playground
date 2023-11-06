@@ -48,7 +48,7 @@
 		// sanitizer: mySanitizer
 		//slash(),
 		sanitizer: mySanitizer,
-		extensions: [emoji(), code()]
+		extensions: [emoji(), code(), slash()]
 		// mentioning()
 		//markedExtensions: [tagTokenizerExtension]
 	});
