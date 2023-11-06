@@ -26,6 +26,9 @@ dependencies:
   marked:
     specifier: ^9.1.5
     version: 9.1.5
+  tributejs:
+    specifier: ^5.1.3
+    version: 5.1.3
 
 devDependencies:
   '@sveltejs/adapter-auto':
@@ -2392,6 +2395,10 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       punycode: 2.3.1
+    dev: false
+
+  /tributejs@5.1.3:
+    resolution: {integrity: sha512-B5CXihaVzXw+1UHhNFyAwUTMDk1EfoLP5Tj1VhD9yybZ1I8DZJEv8tZ1l0RJo0t0tk9ZhR8eG5tEsaCvRigmdQ==}
     dev: false
 
   /ts-api-utils@1.0.3(typescript@5.2.2):

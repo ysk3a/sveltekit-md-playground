@@ -37,6 +37,7 @@
 		"@speed-highlight/core": "^1.2.4",
 		"carta-md": "^2.7.2",
 		"isomorphic-dompurify": "^1.9.0",
-		"marked": "^9.1.5"
+		"marked": "^9.1.5",
+		"tributejs": "^5.1.3"
 	}
 }

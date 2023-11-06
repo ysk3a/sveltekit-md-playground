@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { Carta, CartaEditor } from 'carta-md';
+	import { Carta, CartaEditor, type CartaExtension, type HighlightFunctions } from 'carta-md';
 	import { slash } from '@cartamd/plugin-slash';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { code } from '@cartamd/plugin-code';
 	import { sanitize } from 'isomorphic-dompurify';
 	// const clean = sanitize('dirty');
 	import { placeholderText } from './placeholder';
-
+	import Tribute from 'tributejs';
+	import 'tributejs/dist/tribute.css';
 	// Component default theme
 	import 'carta-md/default-theme.css';
 	// Markdown input theme (Speed Highlight)
@@ -15,29 +16,24 @@
 	import '@cartamd/plugin-code/default.css';
 	import '@cartamd/plugin-slash/default-theme.css';
 	import '@cartamd/plugin-emoji/default-theme.css';
+	import { onMount } from 'svelte';
+	import { tagTokenizerExtension } from './MarkedExtensions';
 	let syncScroll = true;
 	let mode: 'tabs' | 'split' | 'auto' = 'split';
-	const tagTokenizerExtension = {
-		name: '@',
-		level: 'inline',
-		start(src: any) {
-			const i = src.indexOf('@');
-			console.log('::start=', i, src);
-			return i;
-		},
-		tokenizer(src: string, tokens: any) {
-			const rule = /\B^@\w+/g;
-			const match = rule.exec(src);
-			if (match) {
-				console.log(match);
-				return {
-					type: '@', // Should match "name" above
-					raw: match[0], // Text to consume from the source
-					text: match[0]
-				};
-			}
-		}
-	};
+	let tribute = new Tribute({
+		values: [
+			{ key: 'Phil Heartman', value: 'pheartman' },
+			{ key: 'Gordon Ramsey', value: 'gramsey' }
+		]
+	});
+	// let mE: CartaExtension = {
+	// 	extensions: [tagTokenizerExtension],
+	// 	components:
+	// };
+	// let cartaExt: CartaExtension = {
+	// 	markedExtensions: [{extensions: [tagTokenizerExtension]}]
+	// }
+	let cartaEl: HTMLElement;
 	const carta = new Carta({
 		// Remember to use a sanitizer to prevent XSS attacks
 		// sanitizer: mySanitizer
@@ -50,7 +46,39 @@
 		console.log('::sanitize');
 		return sanitize(md);
 	}
+	let tx: Element;
+	onMount(() => {
+		if (cartaEl) {
+			// let cartaTextareaId = cartaTextarea[0].getElementsByTagName('textarea')[0].id;
+			// let preContenteditable = cartaEl.getElementsByClassName('carta-font-code')[0];
+			// console.log('::id', preContenteditable);
+			// preContenteditable.addEventListener('tribute-active-true', function (e) {
+			// 	console.log('Menu opened!');
+			// });
+			// preContenteditable.addEventListener('tribute-active-false', function (e) {
+			// 	console.log('Menu closed!');
+			// });
+			// tribute.attach(preContenteditable);
+			// console.log('::container', cartaEl.querySelectorAll('textarea.carta-font-code'));
+			let cartaTextarea = cartaEl.querySelectorAll('textarea.carta-font-code');
+			tribute.attach(cartaTextarea[0]);
+			if (tribute.isActive) {
+				console.log('Somebody is being mentioned!');
+			} else {
+				console.log("Who's this guy talking to?");
+			}
+		}
+
+		// tribute.attach(tx);
+	});
 </script>
+
+<!-- <textarea bind:this={tx} name="mt" id="mt" cols="30" rows="10" /> -->
+<!-- <div class="test">
+	<pre bind:this={tx}>
+		hi
+		</pre>
+</div> -->
 
 <div class="options">
 	<fieldset>
@@ -80,7 +108,9 @@
 	</fieldset>
 </div>
 
-<CartaEditor value={placeholderText} scroll={syncScroll ? 'sync' : 'async'} {carta} {mode} />
+<div id="cart-wrapper" bind:this={cartaEl}>
+	<CartaEditor value={placeholderText} scroll={syncScroll ? 'sync' : 'async'} {carta} {mode} />
+</div>
 
 <style>
 	/* Or in global stylesheet */
@@ -88,6 +118,10 @@
 	/* :global(pre:has(code[class^="shj-lang"])) {
 		background-color: white;
 	} */
+	:global(.tribute-container) {
+		z-index: 1000000;
+		border: 2px solid red;
+	}
 	:global(body) {
 		margin: 0;
 		font-family: 'Inter var', sans-serif;
