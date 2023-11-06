@@ -18,6 +18,8 @@
 	import '@cartamd/plugin-emoji/default-theme.css';
 	import { onMount } from 'svelte';
 	import { tagTokenizerExtension } from './MarkedExtensions';
+	import { marked } from 'marked';
+	import Mention from './Mention.svelte';
 	let syncScroll = true;
 	let mode: 'tabs' | 'split' | 'auto' = 'split';
 	let tribute = new Tribute({
@@ -30,9 +32,16 @@
 	// 	extensions: [tagTokenizerExtension],
 	// 	components:
 	// };
-	// let cartaExt: CartaExtension = {
-	// 	markedExtensions: [{extensions: [tagTokenizerExtension]}]
-	// }
+	let cartaExt: CartaExtension = {
+		markedExtensions: [{ extensions: [tagTokenizerExtension] }],
+		components: [Mention]
+	};
+	// marked.use({
+	// 	extensions: [
+	// 		tagTokenizerExtension
+	// 		// mentionTokenizerExtension,
+	// 	]
+	// });
 	let cartaEl: HTMLElement;
 	const carta = new Carta({
 		// Remember to use a sanitizer to prevent XSS attacks
