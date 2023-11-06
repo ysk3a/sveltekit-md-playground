@@ -17,7 +17,7 @@
 	import '@cartamd/plugin-slash/default-theme.css';
 	import '@cartamd/plugin-emoji/default-theme.css';
 	import { onMount } from 'svelte';
-	import { tagTokenizerExtension } from './MarkedExtensions';
+	import { mentioning, tagTokenizerExtension } from './MarkedExtensions';
 	import { marked } from 'marked';
 	import Mention from './Mention.svelte';
 	let syncScroll = true;
@@ -32,10 +32,10 @@
 	// 	extensions: [tagTokenizerExtension],
 	// 	components:
 	// };
-	let cartaExt: CartaExtension = {
-		markedExtensions: [{ extensions: [tagTokenizerExtension] }],
-		components: [Mention]
-	};
+	// let cartaExt: CartaExtension = {
+	// 	markedExtensions: [{ extensions: [tagTokenizerExtension] }],
+	// 	components: [Mention]
+	// };
 	// marked.use({
 	// 	extensions: [
 	// 		tagTokenizerExtension
@@ -49,6 +49,7 @@
 		//slash(),
 		sanitizer: mySanitizer,
 		extensions: [emoji(), code()]
+		// mentioning()
 		//markedExtensions: [tagTokenizerExtension]
 	});
 	function mySanitizer(md: string) {

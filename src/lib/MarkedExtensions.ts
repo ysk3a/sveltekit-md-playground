@@ -1,3 +1,5 @@
+import type { CartaExtension } from "carta-md";
+
 export const tagTokenizerExtension = {
     name: '@',
     level: 'inline',
@@ -19,4 +21,12 @@ export const tagTokenizerExtension = {
             };
         }
     }
+};
+export const mentioning = (): CartaExtension => {
+    return {
+        // onLoad: (data) => (shj = highlight),
+        markedExtensions: [
+            { extensions: [tagTokenizerExtension] }
+        ]
+    };
 };
