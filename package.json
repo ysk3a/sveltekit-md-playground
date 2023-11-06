@@ -29,5 +29,14 @@
 		"vite": "^4.4.2",
 		"vitest": "^0.34.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@cartamd/plugin-code": "^2.7.2",
+		"@cartamd/plugin-emoji": "^2.7.2",
+		"@cartamd/plugin-slash": "^2.7.2",
+		"@speed-highlight/core": "^1.2.4",
+		"carta-md": "^2.7.2",
+		"isomorphic-dompurify": "^1.9.0",
+		"marked": "^9.1.5"
+	}
 }
